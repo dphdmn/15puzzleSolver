@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-size:30px;
+      background-color: #222; /* Dark background color */
+      color: #fff; /* Text color */
+    }
+  
+    #scrambleInput {
+      text-align: center;
+      width: 350px;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #333; /* Input background color */
+      border: none;
+      color: #fff; /* Input text color */
+      border-radius: 5px;
+    }
+  
+    #resultDisplay {
+      margin-top: 20px;
+      padding:30px;
+      max-height:300px;
+      overflow-y: auto;
+      text-align: center;
+    }
+  </style>
+<body>
+<h1 id="loadingPlaceHolder" style="font-weight: bold; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh;">
+  Loading... Please wait<br><br>
+  <img src="loading.gif" style="border-radius: 50%;">
+</h1>
+<div id="mainContainer" style="display: none;">
+  <input type="text" id="scrambleInput" placeholder="Enter 4x4 Scramble">
+  <div id="resultDisplay"></div>
+</div>
+<script src="solverMain.js"></script>
+</body>
+</html>
