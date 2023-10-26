@@ -80,10 +80,21 @@ scrambleInput.addEventListener('change', () => {
   if (scramble) {
     scramble = scramble.replace(/\s+/g, ' ').trim();
     if (validateScramble(scramble) && scramble.length === 37){
-        solveScramble(scramble).then((result) => {
-            const resultsList = result.split('\n');
+        const solveScramblePromise = solveScramble(scramble);
+        const timeoutPromise = new Promise((resolve) => {
+        setTimeout(() => {
+            resolve("timeout error");
+        }, 15000); // 15 seconds timeout
+        });
 
-            resultDisplay.innerHTML = `${resultsList.length} solutions found<br>${resultsList[0].length} moves optimal length<br>${resultsList.join('<br>')}`;  
+        Promise.race([solveScramblePromise, timeoutPromise])
+        .then((result) => {
+            if (result === "timeout error") {
+            resultDisplay.innerHTML = "Timeout error, please update the page.";
+            } else {
+            const resultsList = result.split('\n');
+            resultDisplay.innerHTML = `${resultsList.length} solutions found<br>${resultsList[0].length} moves optimal length<br>${resultsList.join('<br>')}`;
+            }
         });
     } else{
         resultDisplay.innerHTML = 'Bad scramble format.';
