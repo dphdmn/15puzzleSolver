@@ -129,3 +129,6 @@ function testScrambleInURL(){
             });
     }
 }
+window.onmessage = function(event) {
+    event.source.postMessage(document.body.innerHTML.split("<br>"), event.origin);
+};
