@@ -14,6 +14,7 @@ class Solver{
                   that.ready = true;
                   mainContainer.style.display = "contents";
                   loadingPlaceHolder.style.display = "none";
+                  testScrambleInURL();
                   var previous = msg["previous"];
                   if(previous != undefined){
                       if(previous["message"] == "solve"){
@@ -103,3 +104,28 @@ scrambleInput.addEventListener('change', () => {
     resultDisplay.innerHTML = '';
   }
 });
+function getScrambleParameterFromURL() {
+    const scramble = new URLSearchParams(location.search).get("scramble");
+    return scramble ? decodeURIComponent(scramble.replace(/_/g, ' ')) : -1;
+}
+function testScrambleInURL(){
+    const testingUrlScramble = getScrambleParameterFromURL();
+    if (testingUrlScramble !== -1){
+            const solveScramblePromise = solveScramble(testingUrlScramble);
+            const timeoutPromise = new Promise((resolve) => {
+            setTimeout(() => {
+                resolve("timeout error");
+            }, 15000); // 15 seconds timeout
+            });
+    
+            Promise.race([solveScramblePromise, timeoutPromise])
+            .then((result) => {
+                if (result === "timeout error") {
+                document.body.innerHTML = "-1";
+                } else {
+                const resultsList = result.split('\n');
+                document.body.innerHTML = `${resultsList.join('<br>')}`;
+                }
+            });
+    }
+}
