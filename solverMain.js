@@ -2,6 +2,7 @@ const scrambleInput = document.getElementById('scrambleInput');
 const resultDisplay = document.getElementById('resultDisplay');
 const mainContainer = document.getElementById('mainContainer');
 const loadingPlaceHolder = document.getElementById('loadingPlaceHolder');
+let scramblesFromURLparsed = false;
 class Solver{
   constructor(){
       this.worker = new Worker("worker.js");
@@ -14,7 +15,10 @@ class Solver{
                   that.ready = true;
                   mainContainer.style.display = "contents";
                   loadingPlaceHolder.style.display = "none";
-                  testScrambleInURL();
+                  if (!scramblesFromURLparsed){
+                    testScrambleInURL();
+                    scramblesFromURLparsed = true;
+                  }
                   var previous = msg["previous"];
                   if(previous != undefined){
                       if(previous["message"] == "solve"){
